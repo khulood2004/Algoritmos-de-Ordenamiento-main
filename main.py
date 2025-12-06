@@ -1,6 +1,4 @@
-# main.py (Actualizado)
 
-# main.py (actualizado)
 import tkinter as tk
 from gui.welcome import WelcomeScreen
 from gui.input import InputOptionsScreen
@@ -17,11 +15,18 @@ class AppController:
     def show_welcome_screen(self):
         WelcomeScreen(self.master, next_callback=self.show_input_screen)
 
-    def show_input_screen(self):
-        InputOptionsScreen(self.master, data_manager=self.dm, next_callback=self.show_sorters_screen)
+    def show_input_screen(self, master=None, data_manager=None):
+        InputOptionsScreen(
+            master if master else self.master,
+            data_manager=self.dm,
+            next_callback=self.show_sorters_screen
+        )
 
-    def show_sorters_screen(self):
-        SortersScreen(self.master, data_manager=self.dm)
+    def show_sorters_screen(self, master=None, data_manager=None):
+        SortersScreen(
+            master if master else self.master,
+            data_manager=self.dm
+        )
 
 if __name__ == "__main__":
     root = tk.Tk()

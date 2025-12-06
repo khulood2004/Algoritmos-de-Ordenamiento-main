@@ -1,6 +1,5 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
-import random 
 from algoritmos.data_manager import DataManager 
 
 class InputOptionsScreen(tk.Toplevel):
@@ -15,12 +14,13 @@ class InputOptionsScreen(tk.Toplevel):
         self.HEIGHT = 400
 
         # ------ NUEVA PALETA DE COLORES ------
-        self.bg_main = "#f6f1e7"        # beige suave
-        self.bg_frame = "#e4efd9"       # verde pastel claro
-        self.fg_text = "#2e3d2f"        # verde oscuro
-        self.entry_bg = "#ffffff"
-        self.btn_bg = "#b7d8a7"
-        self.btn_bg_active = "#a3cc91"
+        self.bg_main = "#000000"        
+        self.bg_frame = "#141414"       
+        self.fg_text = "white"        
+        self.entry_bg = "#000000"
+        self.fg_textbutton= "black"
+        self.btn_bg = "#000000"
+        self.btn_bg_active = "#000000"
 
         self.configure(bg=self.bg_main)
         self.resizable(False, False)
@@ -41,9 +41,9 @@ class InputOptionsScreen(tk.Toplevel):
         
     def create_widgets(self):
         main_frame = tk.Frame(self, bg=self.bg_main)
-        main_frame.pack(expand=True, fill="both", padx=30, pady=20)
+        main_frame.pack(fill="both", padx=30, pady=10)
         
-        # ---- TÍTULO ----
+        # titulo
         title_label = tk.Label(
             main_frame,
             text="INGRESO DE DATOS", 
@@ -53,14 +53,17 @@ class InputOptionsScreen(tk.Toplevel):
         )
         title_label.pack(pady=(0, 25))
 
-        # ----------- SECCIÓN MANUAL -----------
+        #sección manual
         manual_frame = tk.LabelFrame(
             main_frame, 
             text="1. MANUAL", 
             fg=self.fg_text, 
             bg=self.bg_frame, 
-            bd=2, 
-            relief="solid",
+            bd=2,
+            highlightbackground="#A0A0A0",
+            highlightcolor="#A0A0A0",
+            highlightthickness=2,
+            relief="flat",
             font=("Helvetica", 10, "bold")
         )
         manual_frame.pack(fill="x", pady=10, padx=10)
@@ -82,6 +85,7 @@ class InputOptionsScreen(tk.Toplevel):
             relief="flat"
         )
         self.manual_entry.pack(pady=5, ipady=3)
+        self.manual_entry.bind("<Return>", self._handle_enter)
         
         ttk.Button(
             manual_frame,
@@ -90,17 +94,20 @@ class InputOptionsScreen(tk.Toplevel):
             style='Minimal.TButton'
         ).pack(pady=10)
 
-        # ----------- SECCIÓN ALEATORIA -----------
+        #sección aleatoria
         random_frame = tk.LabelFrame(
             main_frame,
             text="2. ALEATORIO",
             fg=self.fg_text,
             bg=self.bg_frame,
             bd=2,
-            relief="solid",
+            highlightbackground="#A0A0A0",
+            highlightcolor="#A0A0A0",
+            highlightthickness=2,
+            relief="flat",
             font=("Helvetica", 10, "bold")
         )
-        random_frame.pack(fill="x", pady=10, padx=10)
+        random_frame.pack(fill="x", pady=(0,10), padx=10)
         
         tk.Label(
             random_frame,
@@ -119,7 +126,7 @@ class InputOptionsScreen(tk.Toplevel):
             relief="flat"
         )
         self.random_entry.pack(pady=5, ipady=3)
-        
+        self.random_entry.bind("<Return>", self._handle_enter)
         ttk.Button(
             random_frame,
             text="Generar Aleatoriamente", 
@@ -132,14 +139,20 @@ class InputOptionsScreen(tk.Toplevel):
         style.configure(
             'Minimal.TButton', 
             font=('Helvetica', 10, 'bold'),
-            foreground=self.fg_text,
+            foreground=self.fg_textbutton,
             background=self.btn_bg,
             padding=6,
             relief='flat'
         )
         style.map('Minimal.TButton', background=[('active', self.btn_bg_active)])
 
-    # ---------------- LÓGICA (NO SE TOCÓ NADA) ----------------
+    def _handle_enter(self, event):
+        widget = self.focus_get()  # obtiene cuál widget tiene el foco
+
+        if widget == self.manual_entry:
+            self._process_manual_input()
+        elif widget == self.random_entry:
+            self._process_random_input()
     def _process_manual_input(self):
         input_str = self.manual_entry.get().strip()
         
@@ -168,9 +181,10 @@ class InputOptionsScreen(tk.Toplevel):
             messagebox.showerror("Error de Cantidad", str(e))
 
     def _advance_to_sorters(self):
-        self.destroy() 
+        self.withdraw()
         if self.next_callback:
-            self.next_callback() 
+        # Pasamos la ventana actual y el data_manager a SortersScreen
+            self.next_callback(master=self, data_manager=self.dm)
 
     def on_closing_master(self):
         if self.master:

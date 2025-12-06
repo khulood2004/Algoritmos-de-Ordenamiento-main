@@ -7,12 +7,10 @@ class StatsManager:
         self.records: List[Dict] = []  # lista de dicts: {'alg': 'quicksort', 'n': 1000, 'ms': 12.3, 'timestamp': ...}
 
     def add(self, alg: str, n: int, ms: float):
-        from datetime import datetime
         self.records.append({
             'alg': alg,
             'n': n,
-            'ms': ms,
-            'timestamp': datetime.now().isoformat()
+            'ms': ms
         })
 
     def to_list(self):

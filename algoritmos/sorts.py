@@ -11,7 +11,7 @@ def _time_it(func):
         return result, elapsed_ms
     return wrapper
 
-# Helpers: operate on copies to no alterar el original externo
+
 def _ensure_copy(arr: List[int]) -> List[int]:
     return list(arr)
 
@@ -93,29 +93,6 @@ def quicksort_recursive(arr: List[int]) -> List[int]:
     _quick_rec(v, 0, len(v) - 1)
     return v
 
-# Quicksort iterativo usando stack
-@_time_it
-def quicksort_iterative(arr: List[int]) -> List[int]:
-    v = _ensure_copy(arr)
-    n = len(v)
-    if n <= 1:
-        return v
-    stack = [(0, n - 1)]
-    while stack:
-        low, high = stack.pop()
-        if low < high:
-            pivot = v[high]
-            i = low - 1
-            for j in range(low, high):
-                if v[j] <= pivot:
-                    i += 1
-                    v[i], v[j] = v[j], v[i]
-            v[i + 1], v[high] = v[high], v[i + 1]
-            p = i + 1
-            stack.append((low, p - 1))
-            stack.append((p + 1, high))
-    return v
-
 # Merge sort recursivo
 def _merge(left, right):
     i = j = 0
@@ -141,22 +118,3 @@ def _merge_rec(v):
 def mergesort_recursive(arr: List[int]) -> List[int]:
     v = _ensure_copy(arr)
     return _merge_rec(v)
-
-# Merge sort iterativo (bottom-up)
-@_time_it
-def mergesort_iterative(arr: List[int]) -> List[int]:
-    v = _ensure_copy(arr)
-    n = len(v)
-    width = 1
-    while width < n:
-        i = 0
-        while i < n:
-            left = i
-            mid = min(i + width, n)
-            right = min(i + 2 * width, n)
-            if mid < right:
-                merged = _merge(v[left:mid], v[mid:right])
-                v[left:left + len(merged)] = merged
-            i += 2 * width
-        width *= 2
-    return v
