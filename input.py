@@ -187,6 +187,4 @@ class InputOptionsScreen(tk.Toplevel):
         if self.master:
             self.master.destroy()
         self.destroy()
-        sadasd
-        
 
