@@ -244,6 +244,11 @@ class SortersScreen(tk.Toplevel):
     def _go_back(self):
         if self.master_window:
             self.master_window.deiconify()  # volver a mostrar la ventana anterior
+            #Limpiar entradas cuando regresa
+            if hasattr(self.master_window, "manual_entry"):
+                self.master_window.manual_entry.delete(0, "end")
+            if hasattr(self.master_window, "random_entry"):
+                self.master_window.random_entry.delete(0, "end")
         self.destroy()  # cerrar la ventana actual
         
     def on_closing_master(self):

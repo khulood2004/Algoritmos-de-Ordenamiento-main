@@ -87,12 +87,16 @@ class InputOptionsScreen(tk.Toplevel):
         self.manual_entry.pack(pady=5, ipady=3)
         self.manual_entry.bind("<Return>", self._handle_enter)
         
-        ttk.Button(
-            manual_frame,
-            text="Procesar Manualmente", 
-            command=self._process_manual_input,
-            style='Minimal.TButton'
-        ).pack(pady=10)
+        tk.Button(
+        manual_frame,
+        text="Procesar Manualmente",
+        command=self._process_manual_input,
+        bg="white",
+        fg="black",
+        font=("Helvetica", 10, "bold"),
+        relief="flat",
+        bd=1
+        ).pack(pady=10, ipadx=10, ipady=4)
 
         #sección aleatoria
         random_frame = tk.LabelFrame(
@@ -127,24 +131,17 @@ class InputOptionsScreen(tk.Toplevel):
         )
         self.random_entry.pack(pady=5, ipady=3)
         self.random_entry.bind("<Return>", self._handle_enter)
-        ttk.Button(
-            random_frame,
-            text="Generar Aleatoriamente", 
-            command=self._process_random_input,
-            style='Minimal.TButton'
-        ).pack(pady=10)
 
-        # ---- ESTILO DE BOTONES ----
-        style = ttk.Style()
-        style.configure(
-            'Minimal.TButton', 
-            font=('Helvetica', 10, 'bold'),
-            foreground=self.fg_textbutton,
-            background=self.btn_bg,
-            padding=6,
-            relief='flat'
-        )
-        style.map('Minimal.TButton', background=[('active', self.btn_bg_active)])
+        tk.Button(
+        random_frame,
+        text="Generar Aleatoriamente",
+        command=self._process_random_input,
+        bg="white",
+        fg="black",
+        font=("Helvetica", 10, "bold"),
+        relief="flat",
+        bd=1
+        ).pack(pady=10, ipadx=10, ipady=4)
 
     def _handle_enter(self, event):
         widget = self.focus_get()  # obtiene cuál widget tiene el foco

@@ -49,25 +49,19 @@ class WelcomeScreen(tk.Toplevel):
                             font=("Helvetica", 14, "italic")) 
         group_label.grid(row=1, column=0, pady=(0, 50), sticky="n")
 
-        start_button = ttk.Button(self, 
-                                text="➜",
-                                command=self.go_to_next_screen,
-                                width=4, 
-                                style='Minimal.TButton')
+        start_button = tk.Button(self,
+                            text="➜",
+                            command=self.go_to_next_screen,
+                            font=("Helvetica", 18, "bold"),
+                            bg="white",    
+                            fg="black", 
+                            activebackground="black",  
+                            activeforeground="white",  
+                            relief="flat",
+                            bd=0,
+                            cursor="hand2",
+                            width=3)
         start_button.grid(row=2, column=0, pady=(50, 20), sticky="n")
-
-        style = ttk.Style()
-        style.configure('Minimal.TButton', 
-                        font=('Helvetica', 18, 'bold'),
-                        foreground='white', 
-                        background='black',
-                        relief='flat',
-                        borderwidth=0)
-
-        style.map('Minimal.TButton', 
-                foreground=[('active', 'gray')], 
-                background=[('active', 'black')])
-        start_button.config(cursor="hand2")
 
     def go_to_next_screen(self):
         self.destroy() 
